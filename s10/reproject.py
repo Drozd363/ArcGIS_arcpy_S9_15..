@@ -1,8 +1,10 @@
 import arcpy
 arcpy.env.overwriteOutput = True
 
-arcpy.env.workspace = r"E:\programin\semestr2\samrob\S10_GIS_FILE"
-input = "CountyLines.shp"
+arcpy.env.workspace = arcpy.GetParameterAsText(0)
+input = arcpy.GetParameterAsText(1)
+#arcpy.env.workspace = r"E:\programin\semestr2\samrob\S10_GIS_FILE"
+#input = "CountyLines.shp"
 
 inputSR = arcpy.Describe(input).SpatialReference
 inputSRname = inputSR.name
