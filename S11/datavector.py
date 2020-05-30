@@ -1,11 +1,17 @@
 import arcpy
 
-facilshp =r"E:\programin\semestr2\samrob\S11_GIS_FILE\Progr_GIS_s11\facilities.shp"
-zipshp = r"E:\programin\semestr2\samrob\S11_GIS_FILE\Progr_GIS_s11\zip.shp"
-arcpy.env.workspace = r"E:\programin\semestr2\samrob\S11_GIS_FILE\Progr_GIS_s11\Results"
-distanc = '3000'
-fieldname = 'FACILITY'
-fieldval = 'COLLEGE'
+facilshp = arcpy.GetParameterAsText(0)
+zipshp = arcpy.GetParameterAsText(1)
+arcpy.env.workspace = arcpy.GetParameterAsText(2)
+distanc = arcpy.GetParameterAsText(3)
+fieldname = arcpy.GetParameterAsText(4)
+fieldval = arcpy.GetParameterAsText(5)
+#facilshp =r"E:\programin\semestr2\samrob\S11_GIS_FILE\Progr_GIS_s11\facilities.shp"
+#zipshp = r"E:\programin\semestr2\samrob\S11_GIS_FILE\Progr_GIS_s11\zip.shp"
+#arcpy.env.workspace = r"E:\programin\semestr2\samrob\S11_GIS_FILE\Progr_GIS_s11\Results"
+#distanc = '3000'
+#fieldname = 'FACILITY'
+#fieldval = 'COLLEGE'
 arcpy.env.overwriteOutput = True
 
 # make feature layers, select attributes
