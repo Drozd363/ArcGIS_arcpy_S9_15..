@@ -30,3 +30,20 @@ with arcpy.da.InsertCursor(create_shp, searchfields) as cursorI, arcpy.da.Search
     for row in cursorS:
         cursorI.insertRow(row)
 arcpy.AddMessage("Created file. Created fields and records: {}".format(create_shp))
+
+# facilities_Distance_3000.shp created and update field COLLEGE_NAME
+fieldnew = fieldval[:6] + 'NAME'
+arcpy.AddField_management(create_shp, fieldnew, "DOUBLE")
+
+fac_idval = []
+with arcpy.da.SearchCursor("facilitiesss", 'FAC_ID') as cursorSS:
+    for row in cursorSS:
+        fac_idval.append(row)
+
+i = 0
+with arcpy.da.UpdateCursor(create_shp, fieldnew) as cursorU:
+    for row in cursorU:
+        row = fac_idval[i]
+        cursorU.updateRow(row)
+        i += 1
+arcpy.AddMessage('Created field {} and updated in a file {}'.format(fieldnew, create_shp))
