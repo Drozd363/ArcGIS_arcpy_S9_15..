@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def modelMatrix(inMatrix, sequence):
     """
     Finds a transformation vector in 2D.
@@ -11,22 +10,28 @@ def modelMatrix(inMatrix, sequence):
     returns: tuple of transformed vector
     """
     v = np.append(np.array(inMatrix['V']), 1)
-    v = np.array([v]).transpose()
+    v = np.matrix([v]).transpose()
     rt = inMatrix['R']
-    # r = np.array([[np.cos(rt), np.sin(-rt), 0], [np.sin(rt), np.cos(rt), 0], [0, 0, 1]])
     st = inMatrix['S']
-    # s = np.array([[st[0], 0, 0], [0, st[1], 0], [0, 0, 1]])
     tt = inMatrix['T']
-    # t = np.array([[1, 0, tt[0]], [0, 1, tt[1]], [0, 0, 1]])
     r = np.matrix([[np.cos(np.radians(rt)), -np.sin(np.radians(rt)), 0], [np.sin(np.radians(rt)), np.cos(np.radians(rt)), 0],
          [0, 0, 1]])
     s = np.matrix([[st[0], 0, 0], [0, st[1], 0], [0, 0, 1]])
     t = np.matrix([[1, 0, tt[0]], [0, 1, tt[1]], [0, 0, 1]])
+    dictmatrix = {'R': r, 'T': t, 'S': s}
+    vect = 1
+    for i in sequence:
+        matr = dictmatrix[i]
+        vect = vect*matr
+    outvector = np.ravel(vect*v)
+    outtuple = (outvector[0], outvector[1], outvector[2])
+    return outtuple
+
 
 
 
 # uncomment test when you ready
-'''
+
 if __name__ == '__main__':
 
     inMatrix1 = {'R':(33),'T':(1.0,2.0),'S':(2.0,1.2),'V':(1,2)}
@@ -42,4 +47,3 @@ if __name__ == '__main__':
     secondTest = modelMatrix(inMatrix2,'TRS')
     assert 0.8 <= secondTest[0] and 0.91 >= secondTest[0] and 6.06 <= secondTest[1] and 6.18 >= secondTest[1]
     print "2. 'R':(33),'T':(1.0,2.0),'S':(2.0,1.2),'V':(1,2)" + " Result is: " + str(secondTest)
-'''
