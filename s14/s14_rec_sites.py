@@ -1,14 +1,24 @@
 import arcpy
 arcpy.env.overwriteOutput = True
 
-inputFc = r"E:\programin\semestr2\samrob\s14_GIS_FILE\Programming_in_GIS_2020_L9_s14\rec_sites.shp"
-rasterElevation = r"E:\programin\semestr2\samrob\s14_GIS_FILE\Programming_in_GIS_2020_L9_s14\elevation"
-resultFile = r"E:\programin\semestr2\samrob\s14_GIS_FILE\Programming_in_GIS_2020_L9_s14\rec_sites1.shp"
-newFields = 'HEIGHT'
+inputFc = arcpy.GetParameterAsText(0)           # rec_sites.shp
+rasterElevation = arcpy.GetParameterAsText(1)      # elevation
+resultFile = arcpy.GetParameterAsText(2)  # resultFile = "#"
+newFields = arcpy.GetParameterAsText(3)   # newFields = '#'
+#inputFc = r"E:\programin\semestr2\samrob\s14_GIS_FILE\Programming_in_GIS_2020_L9_s14\rec_sites.shp"
+#rasterElevation = r"E:\programin\semestr2\samrob\s14_GIS_FILE\Programming_in_GIS_2020_L9_s14\elevation"
+#resultFile = r"E:\programin\semestr2\samrob\s14_GIS_FILE\Programming_in_GIS_2020_L9_s14\rec_sites1.shp"
+#newFields = 'HEIGHT'
+if newFields == '#' or not newFields:
+    newFields = 'HEIGHT'
 
-# created result file
-arcpy.CopyFeatures_management(inputFc, resultFile)
-arcpy.AddMessage("A new file has been created with changes")
+# Changes occur in the input or a new file is created. Asked by the user
+if resultFile == "#" or not resultFile:
+    resultFile = inputFc
+    arcpy.AddMessage("Changes occur in the input file")
+else:
+    arcpy.CopyFeatures_management(inputFc, resultFile)
+    arcpy.AddMessage("A new file has been created with changes")
 
 # check coordinate systems for coincidence
 if arcpy.Describe(resultFile).spatialReference.name == arcpy.Describe(rasterElevation).spatialReference.name:
