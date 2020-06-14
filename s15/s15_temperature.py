@@ -2,13 +2,19 @@ import arcpy
 import numpy as np
 arcpy.env.overwriteOutput = True
 
-cities = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\us_cities1.shp"
-inpraster = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\us.tmax_nohads_ll_20140525_float.tif"
-clipzone = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\us_boundaries1.shp"
-resultdirec = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\Results"
-popsize = 3
+cities = arcpy.GetParameterAsText(0)
+inpraster = arcpy.GetParameterAsText(1)
+clipzone = arcpy.GetParameterAsText(2)
+resultdirec = arcpy.GetParameterAsText(3)
+popsize = arcpy.GetParameterAsText(4)
+#cities = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\us_cities1.shp"
+#inpraster = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\us.tmax_nohads_ll_20140525_float.tif"
+#clipzone = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\us_boundaries1.shp"
+#resultdirec = r"E:\programin\semestr2\samrob\s15_GIS_FILE\Programming_in_GIS_2020_L9_s15\Results"
+#popsize = 3
 arcpy.env.workspace = resultdirec
-#create file with selection
+
+# create file with selection
 arcpy.MakeFeatureLayer_management(cities, "layercities", "POPCLASS >= " + str(popsize))
 citiesSelect = "us_cities_level_{}.shp".format(str(popsize))
 arcpy.CopyFeatures_management("layercities", citiesSelect)
